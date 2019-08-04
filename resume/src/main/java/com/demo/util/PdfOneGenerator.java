@@ -43,36 +43,35 @@ public class PdfOneGenerator {
 	public String createDocument(Resume resume) throws IOException {
 		Document document = new Document();
 		try {
-			String file_location="src/main/file/"+resume.getHeader().getName()+".pdf";
-			PdfWriter writer = PdfWriter.getInstance(document,
-					new FileOutputStream(new File(file_location)));
+			String file_location = "src/main/file/" + resume.getHeader().getName() + ".pdf";
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(file_location)));
 			System.out.println("==========Pdf document is opened============");
 			document.open();
-			if(resume!=null) {
-				if(resume.getHeader()!=null) {
+			if (resume != null) {
+				if (resume.getHeader() != null) {
 					addMetaData(document, resume.getHeader().getName());
 					System.out.println("Adding meta data");
 				}
 				addLayoutConfig(document);
 				System.out.println("Adding page layout configurations");
 				addLines(writer);
-				if(resume.getHeader()!=null) {
+				if (resume.getHeader() != null) {
 					addHeader(document, resume.getHeader());
 					System.out.println("Adding header details");
 				}
-				if(resume.getEducation()!=null) {
+				if (resume.getEducation() != null) {
 					addEducation(document, resume.getEducation());
 					System.out.println("Adding educational data");
 				}
-				if(resume.getExperience()!=null) {
+				if (resume.getExperience() != null) {
 					addExperience(document, resume.getExperience());
 					System.out.println("Adding professional experience");
 				}
-				if(resume.getSkills()!=null) {
+				if (resume.getSkills() != null) {
 					addSkills(document, resume.getSkills());
 					System.out.println("Adding skill section");
 				}
-				if(resume.getProjects()!=null) {
+				if (resume.getProjects() != null) {
 
 					addProjects(document, resume.getProjects());
 					System.out.println("Adding projects section");
@@ -87,20 +86,20 @@ public class PdfOneGenerator {
 			// TODO: handle exception
 			System.out.println("==========Error while creating pdf============");
 			System.out.println(e.toString());
-			
+
 		}
 
 		return "Failed";
 	}
-	
+
 	public byte[] getDocument(String file_name) {
-		String file_location="src/main/file/"+file_name+".pdf";
+		String file_location = "src/main/file/" + file_name + ".pdf";
 		File file = new File(file_location);
 		byte[] bytesArray = new byte[(int) file.length()];
 		FileInputStream fis;
 		try {
 			fis = new FileInputStream(file);
-			fis.read(bytesArray); 
+			fis.read(bytesArray);
 			fis.close();
 			return bytesArray;
 		} catch (FileNotFoundException e) {
@@ -110,7 +109,7 @@ public class PdfOneGenerator {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
@@ -190,7 +189,7 @@ public class PdfOneGenerator {
 		 * PdfContentByte canvas = writer.getDirectContent();
 		 * canvas.setColorStroke(BaseColor.BLACK ); canvas.moveTo(35, 735);
 		 * canvas.lineTo(560, 735); canvas.closePathStroke();
-		 * 
+		 *
 		 * canvas.setColorStroke(BaseColor.BLACK ); canvas.moveTo(35, 610);
 		 * canvas.lineTo(560, 610); canvas.closePathStroke();
 		 */
