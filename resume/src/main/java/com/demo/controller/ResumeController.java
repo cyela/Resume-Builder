@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.validation.Valid;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +24,19 @@ import com.demo.util.PdfOneGenerator;
 @RequestMapping(path = "/api")
 public class ResumeController {
 
+	private static final Logger log = Logger.getLogger(ResumeController.class);
+
 	@Autowired
 	private PdfOneGenerator pdfGen;
 
 	@PostMapping(path = "/resume")
 	public ResponseEntity<String> postResume(@Valid @RequestBody Resume resume) throws IOException {
 
-		System.out.println(resume.getHeader());
-		System.out.println(resume.getExperience());
-		System.out.println(resume.getEducation());
-		System.out.println(resume.getProjects());
-		System.out.println(resume.getSkills());
+		log.info(resume.getHeader());
+		log.info(resume.getExperience());
+		log.info(resume.getEducation());
+		log.info(resume.getProjects());
+		log.info(resume.getSkills());
 		return new ResponseEntity<String>(pdfGen.createDocument(resume), HttpStatus.OK);
 	}
 

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.demo.model.Education;
@@ -33,6 +34,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 @Component
 public class PdfOneGenerator {
 
+	private static final Logger log = Logger.getLogger(PdfOneGenerator.class);
 	/* Fonts for lines */
 	private static final Font nameStyle = new Font(Font.FontFamily.HELVETICA, 12f, Font.BOLD);
 	private static final Font emptyLineStyle = new Font(Font.FontFamily.HELVETICA, 4f, Font.BOLD);
@@ -45,48 +47,47 @@ public class PdfOneGenerator {
 		try {
 			String file_location = "src/main/file/" + resume.getHeader().getName() + ".pdf";
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(new File(file_location)));
-			System.out.println("==========Pdf document is opened============");
+			log.info("==========Pdf document is opened============");
 			document.open();
 			if (resume != null) {
 				if (resume.getHeader() != null) {
 					addMetaData(document, resume.getHeader().getName());
-					System.out.println("Adding meta data");
+					log.info("Adding meta data");
 				}
 				addLayoutConfig(document);
-				System.out.println("Adding page layout configurations");
+				log.info("Adding page layout configurations");
 				addLines(writer);
 				if (resume.getHeader() != null) {
 					addHeader(document, resume.getHeader());
-					System.out.println("Adding header details");
+					log.info("Adding header details");
 				}
 				if (resume.getEducation() != null) {
 					addEducation(document, resume.getEducation());
-					System.out.println("Adding educational data");
+					log.info("Adding educational data");
 				}
 				if (resume.getExperience() != null) {
 					addExperience(document, resume.getExperience());
-					System.out.println("Adding professional experience");
+					log.info("Adding professional experience");
 				}
 				if (resume.getSkills() != null) {
 					addSkills(document, resume.getSkills());
-					System.out.println("Adding skill section");
+					log.info("Adding skill section");
 				}
 				if (resume.getProjects() != null) {
 
 					addProjects(document, resume.getProjects());
-					System.out.println("Adding projects section");
+					log.info("Adding projects section");
 				}
 			}
 			document.close();
 			writer.close();
-			System.out.println("==========Pdf created successfully============");
+			log.info("==========Pdf created successfully============");
 
 			return "Success";
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("==========Error while creating pdf============");
-			System.out.println(e.toString());
-
+			log.error("==========Error while creating pdf============");
+			log.error(e.getMessage());
 		}
 
 		return "Failed";
